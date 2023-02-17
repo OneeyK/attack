@@ -10,6 +10,11 @@ public class InputReader : MonoBehaviour
 
     private void Update () 
     {
+
+        if(Input.GetButtonDown("Jump")){
+            _playerEntity.Jump();
+        }
+
        _horizontalDirection =  Input.GetAxisRaw("Horizontal");
        _verticalDirection =  Input.GetAxisRaw("Vertical");
     }

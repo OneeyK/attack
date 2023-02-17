@@ -19,8 +19,14 @@ public class PlayerEntity : MonoBehaviour
     [SerializeField] private float _maxVerticalPosition;
     [SerializeField] private float _minVerticalPosition;
 
+    [Header("Jump")]
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private float _gravityScale;
+
     private Rigidbody2D _rigidbody;
     private float _sizeModificator;
+    private bool _isJump;
+    private float _startJumpVerticalPosition; 
 
 
  
@@ -34,6 +40,12 @@ public class PlayerEntity : MonoBehaviour
         UpdateSize();
     }
 
+    private void Update() {
+        if (_isJump) {
+            UpdateJump();
+        }
+    }
+
 
     public void MoveHorizontally(float direction) {
         SetDirrection(direction);
@@ -43,6 +55,11 @@ public class PlayerEntity : MonoBehaviour
     }
 
     public void MoveVertically(float direction) {
+
+        if (_isJump) {
+            return;
+        }
+
         Vector2 velocity = _rigidbody.velocity;
         velocity.y = direction * _veticalSpeed;
         _rigidbody.velocity = velocity;
@@ -54,6 +71,18 @@ public class PlayerEntity : MonoBehaviour
         float verticalPosition = Mathf.Clamp(transform.position.y, _minVerticalPosition, _maxVerticalPosition);
         _rigidbody.position = new Vector2(_rigidbody.position.x, verticalPosition);
         UpdateSize();
+
+    }
+
+    public void Jump () {
+        if (_isJump) {
+            return;
+        }
+
+        _isJump = true;
+        _rigidbody.AddForce(Vector2.up * _jumpForce);
+        _rigidbody.gravityScale = _gravityScale;
+        _startJumpVerticalPosition = transform.position.y;
 
     }
 
@@ -72,6 +101,19 @@ public class PlayerEntity : MonoBehaviour
     private void Flip() {
         transform.Rotate(0, 180, 0);
         _faceRight = !_faceRight;
+    }
+
+    private void UpdateJump() {
+        if(_rigidbody.velocity.y < 0 && _rigidbody.position.y <= _startJumpVerticalPosition){
+            ResetJump();
+            return;
+        }
+    }
+
+    private void ResetJump() {
+        _isJump = false;
+        _rigidbody.position = new Vector2(_rigidbody.position.x, _startJumpVerticalPosition);
+        _rigidbody.gravityScale = 0;
     }
 }
 
