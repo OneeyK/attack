@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player.PlayerAnimations;
 using UnityEngine;
 
 namespace Player 
 {
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerEntity : MonoBehaviour 
+public class PlayerEntity : MonoBehaviour
 {
-
+    [SerializeField] private AnimatorController _animator;
     [Header("HorizontalMovement")]
     [SerializeField] private float _horizontalSpeed;
     [SerializeField] private bool _faceRight;
@@ -26,7 +27,10 @@ public class PlayerEntity : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private float _sizeModificator;
     private bool _isJump;
-    private float _startJumpVerticalPosition; 
+    private float _startJumpVerticalPosition;
+
+    private Vector2 _movement;
+    private AnimationType _currenAnimationtype;
 
 
  
@@ -44,10 +48,20 @@ public class PlayerEntity : MonoBehaviour
         if (_isJump) {
             UpdateJump();
         }
+        UpdateAnimations();
+    }
+
+    private void UpdateAnimations()
+    {
+        _animator.PlayAnimation(AnimationType.Idle, true);
+        _animator.PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
+        _animator.PlayAnimation(AnimationType.Jump, _isJump);
     }
 
 
-    public void MoveHorizontally(float direction) {
+    public void MoveHorizontally(float direction)
+    {
+        _movement.x = direction;
         SetDirrection(direction);
         Vector2 velocity = _rigidbody.velocity;
         velocity.x = direction * _horizontalSpeed;
@@ -59,6 +73,8 @@ public class PlayerEntity : MonoBehaviour
         if (_isJump) {
             return;
         }
+
+        _movement.y = direction;
 
         Vector2 velocity = _rigidbody.velocity;
         velocity.y = direction * _veticalSpeed;
