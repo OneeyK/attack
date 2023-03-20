@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Player.PlayerAnimations
 {
     [RequireComponent(typeof(SkeletonAnimation))]
-    public class SpineAnimatorController : AnimatorController
+    public class SpineAnimationController : AnimationController
     {
         [SpineAnimation, SerializeField] private string _idleAnimationKey;
         [SpineAnimation, SerializeField] private string _walkAnimationKey;

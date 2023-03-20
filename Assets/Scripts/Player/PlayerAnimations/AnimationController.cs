@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Player.PlayerAnimations
 {
-    public abstract class AnimatorController : MonoBehaviour
+    public abstract class AnimationController : MonoBehaviour
     {
 
         private AnimationType _currentAnimationType;

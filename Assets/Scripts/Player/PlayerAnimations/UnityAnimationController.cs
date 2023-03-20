@@ -3,7 +3,7 @@
 namespace Player.PlayerAnimations
 {
     [RequireComponent(typeof(Animator))]
-    public class UnityAnimatorController : AnimatorController
+    public class UnityAnimationController : AnimationController
     {
         private Animator _animator;
         private void Start()

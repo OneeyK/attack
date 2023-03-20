@@ -8,7 +8,7 @@ namespace Player
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerEntity : MonoBehaviour
 {
-    [SerializeField] private AnimatorController _animator;
+    [SerializeField] private Animator _animator;
     [Header("HorizontalMovement")]
     [SerializeField] private float _horizontalSpeed;
     [SerializeField] private bool _faceRight;
@@ -53,9 +53,12 @@ public class PlayerEntity : MonoBehaviour
 
     private void UpdateAnimations()
     {
-        _animator.PlayAnimation(AnimationType.Idle, true);
+        /*_animator.PlayAnimation(AnimationType.Idle, true);
         _animator.PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
-        _animator.PlayAnimation(AnimationType.Jump, _isJump);
+        _animator.PlayAnimation(AnimationType.Jump, _isJump);*/
+        PlayAnimation(AnimationType.Idle, true);
+        PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
+        PlayAnimation(AnimationType.Jump, _isJump);
     }
 
 
@@ -130,6 +133,35 @@ public class PlayerEntity : MonoBehaviour
         _isJump = false;
         _rigidbody.position = new Vector2(_rigidbody.position.x, _startJumpVerticalPosition);
         _rigidbody.gravityScale = 0;
+    }
+    
+    
+    public void PlayAnimation(AnimationType animationType, bool active)
+    {
+        if (!active)
+        {
+            if (_currenAnimationtype == AnimationType.Idle || _currenAnimationtype != animationType)
+            {
+                return;
+            }
+            _currenAnimationtype = AnimationType.Idle;
+            PlayAnimation(_currenAnimationtype);
+            return;
+        }
+        
+        if (_currenAnimationtype > animationType)
+        {
+            return;
+        }
+
+        _currenAnimationtype = animationType;
+        PlayAnimation(_currenAnimationtype);
+
+    }
+    
+    protected  void PlayAnimation(AnimationType animationType)
+    {
+        _animator.SetInteger(nameof(AnimationType), (int)animationType);
     }
 }
 
