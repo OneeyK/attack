@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Player.PlayerAnimations;
+using Spine.Unity.Examples;
+using UnityEditor.Animations;
 using UnityEngine;
+using AnimatorController = Player.PlayerAnimations.AnimatorController;
 
 namespace Player 
 {
@@ -31,6 +35,9 @@ public class PlayerEntity : MonoBehaviour
 
     private Vector2 _movement;
     private AnimationType _currenAnimationtype;
+
+    private event Action ActionRequested;
+    private event Action AnimationEnded;
 
 
  
@@ -136,32 +143,60 @@ public class PlayerEntity : MonoBehaviour
     }
     
     
-    public void PlayAnimation(AnimationType animationType, bool active)
+    public bool PlayAnimation(AnimationType animationType, bool active)
     {
         if (!active)
         {
             if (_currenAnimationtype == AnimationType.Idle || _currenAnimationtype != animationType)
             {
-                return;
+                return false;
             }
             _currenAnimationtype = AnimationType.Idle;
             PlayAnimation(_currenAnimationtype);
-            return;
+            return false;
         }
         
         if (_currenAnimationtype > animationType)
         {
-            return;
+            return false;
         }
 
         _currenAnimationtype = animationType;
         PlayAnimation(_currenAnimationtype);
-
+        return true;
     }
     
     protected  void PlayAnimation(AnimationType animationType)
     {
         _animator.SetInteger(nameof(AnimationType), (int)animationType);
+    }
+
+    public void StartAttck()
+    {
+        /*if (!PlayAnimation(AnimationType.Attack, true))
+        {
+            return;
+        }*/
+
+        ActionRequested += Attack;
+        AnimationEnded += EndAttack;
+    }
+    
+    
+    
+    protected void OnActionRequested() => ActionRequested?.Invoke();
+    protected void OnAnimationEnded() => AnimationEnded?.Invoke();
+
+    private void Attack()
+    {
+        Debug.Log("Attack");
+    }
+    
+    private void EndAttack()
+    {
+        ActionRequested -= Attack;
+        AnimationEnded -= EndAttack;
+        PlayAnimation(AnimationType.Attack, false);
     }
 }
 
