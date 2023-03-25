@@ -1,8 +1,10 @@
 using System;
+using Core.Services.Updater;
+using InputReader;
 using Player;
 using UnityEngine;
 
-public class ExternalDevicesInputReader : IEntityInputSource
+public class ExternalDevicesInputReader : IEntityInputSource, IDisposable
 {
     
     public float HorizontalDirection => Input.GetAxisRaw("Horizontal");
@@ -10,7 +12,22 @@ public class ExternalDevicesInputReader : IEntityInputSource
     public bool Jump { get; private set; }
     public bool Attack { get; private set; }
 
-    public void OnUpdate () 
+    public ExternalDevicesInputReader()
+    {
+        ProjectUpdater.Instance.UpdateCalled += OnUpdate;
+        
+    }
+
+    public void Dispose() => ProjectUpdater.Instance.UpdateCalled -= OnUpdate;
+    
+    
+    public void ResetOneTimeAction()
+    {
+        Jump = false;
+        Attack = false;
+    }
+    
+    private void OnUpdate () 
     {
 
         if(Input.GetButtonDown("Jump"))
@@ -28,10 +45,6 @@ public class ExternalDevicesInputReader : IEntityInputSource
         _playerEntity.MoveVertically(_verticalDirection);
     }*/
 
-    public void ResetOneTimeAction()
-    {
-        Jump = false;
-        Attack = false;
-    }
+   
 
 } 
