@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b25e13465b44baa9d76d79ba0b70d4, type: 3}
   m_Name: StatsStorage
   m_EditorClassIdentifier: 
-  <Stats>k__BackingField: []
+  <Stats>k__BackingField:
+  - <Type>k__BackingField: 6
+    <Value>k__BackingField: 1
+  - <Type>k__BackingField: 7
+    <Value>k__BackingField: 800
