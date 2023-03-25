@@ -35,7 +35,7 @@ public class ExternalDevicesInputReader : IEntityInputSource, IDisposable
             Jump = true;
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown("left ctrl"))
             Attack = true;
         
     }

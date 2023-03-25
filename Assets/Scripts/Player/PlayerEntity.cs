@@ -104,11 +104,10 @@ public class PlayerEntity : MonoBehaviour
 
     public void StartAttck()
     {
-        /*if (!PlayAnimation(AnimationType.Attack, true))
+        if (!PlayAnimation(AnimationType.Attack, true))
         {
             return;
-        }*/
-
+        }
         ActionRequested += Attack;
         AnimationEnded += EndAttack;
     }
