@@ -1,6 +1,7 @@
 using System;
 using Core.Movement.Controller;
 using Core.Movement.Data;
+using Core.StatSystem;
 using UnityEngine;
 using AnimatorController = Player.PlayerAnimations.AnimatorController;
 
@@ -29,11 +30,11 @@ public class PlayerEntity : MonoBehaviour
 
  
     // Start is called before the first frame update
-    private void Start()
+    public void Initialize(IStatValueGiver statValueGiver)
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _directionalMover = new DirectionalMover(_rigidbody, _directionalMovementData);
-        _jumper = new Jumper(_rigidbody, _jumpData, _directionalMovementData.MaxSize);
+        _directionalMover = new DirectionalMover(_rigidbody, _directionalMovementData, statValueGiver);
+        _jumper = new Jumper(_rigidbody, _jumpData, _directionalMovementData.MaxSize, statValueGiver);
         _directionalMover.UpdateSize();
         
     }

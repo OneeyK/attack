@@ -1,4 +1,6 @@
 ﻿using Core.Movement.Data;
+using Core.StatSystem;
+using Core.StatSystem.Enums;
 using UnityEngine;
 
 namespace Core.Movement.Controller
@@ -9,17 +11,19 @@ namespace Core.Movement.Controller
         private readonly Rigidbody2D _rigidbody;
         private readonly float _maxVerticalSize;
         private readonly Transform _transform;
+        private readonly IStatValueGiver _statValueGiver;
 
         private float _startJumpVerticalPosition;
         
         public bool isJump { get; private set; }
 
-        public Jumper(Rigidbody2D rigidbody2D, JumpData jumpData, float maxVerticalSize)
+        public Jumper(Rigidbody2D rigidbody2D, JumpData jumpData, float maxVerticalSize, IStatValueGiver statValueGiver)
         {
             _rigidbody = rigidbody2D;
             _jumpData = jumpData;
             _maxVerticalSize = maxVerticalSize;
             _transform = _rigidbody.transform;
+            _statValueGiver = statValueGiver;
         }
         
         
@@ -29,7 +33,7 @@ namespace Core.Movement.Controller
             }
 
             isJump = true;
-            _rigidbody.AddForce(Vector2.up * _jumpData.JumpForce);
+            _rigidbody.AddForce(Vector2.up * _statValueGiver.GetStatValue(StatType.JumpForce));
             _rigidbody.gravityScale = _jumpData.GravityScale;
             _startJumpVerticalPosition = _rigidbody.position.y;
 

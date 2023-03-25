@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Services.Updater;
+using Core.StatSystem;
 using Player;
 using UnityEngine;
 using InputReader;
@@ -11,8 +12,8 @@ namespace Core
     {
         [SerializeField] private PlayerEntity _playerEntity;
         [SerializeField] private GameUIInputView _gameUIInputView;
+
         private ExternalDevicesInputReader _externalDevicesInput;
-        //private PlayerBrain _playerBrain;
         private PlayerSystem _playerSystem;
         private ProjectUpdater _projectUpdater;
 
@@ -21,6 +22,7 @@ namespace Core
         private bool _onPause;
         private void Awake()
         {
+            
             _disposables = new List<IDisposable>();
             if (ProjectUpdater.Instance == null)
             {
@@ -32,35 +34,17 @@ namespace Core
             }
             _externalDevicesInput = new ExternalDevicesInputReader();
             _disposables.Add(_externalDevicesInput);
-            /*_playerBrain = new PlayerBrain(_playerEntity, new List<IEntityInputSource>
-            {
-                _gameUIInputView,
-                _externalDevicesInput
-            });*/
+           
             _playerSystem = new PlayerSystem(_playerEntity, new List<IEntityInputSource>
             {
                 _gameUIInputView,
                 _externalDevicesInput
             });
+            
+            _disposables.Add(_playerSystem);
 
         }
-
-        /*private void Update()
-        {
-            if(_onPause)
-                return;
-            
-            _externalDevicesInput.OnUpdate();
-        }*/
-
-        /*private void FixedUpdate()
-        {
-            if(_onPause)
-                return;
-            
-            _playerBrain.OnFixedUpdate();
-        }*/
-
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape))

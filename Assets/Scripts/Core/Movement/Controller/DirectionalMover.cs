@@ -1,4 +1,6 @@
 ﻿using Core.Movement.Data;
+using Core.StatSystem;
+using Core.StatSystem.Enums;
 using UnityEngine;
 
 namespace Core.Movement.Controller
@@ -8,18 +10,20 @@ namespace Core.Movement.Controller
         private readonly Rigidbody2D _rigidbody;
         private readonly Transform _transform;
         private readonly DirectionalMovementData _directionalMovementData;
-        private readonly float _sizeModificator; 
+        private readonly float _sizeModificator;
+        private readonly IStatValueGiver _statValueGiver;
 
         private Vector2 _movement;
 
         public bool _faceRight { get; set; }
         public bool IsMoving => _movement.magnitude > 0;
         
-        public DirectionalMover(Rigidbody2D rigidbody2D, DirectionalMovementData directionalMovementData)
+        public DirectionalMover(Rigidbody2D rigidbody2D, DirectionalMovementData directionalMovementData, IStatValueGiver statValueGiver)
         {
             _rigidbody = rigidbody2D;
             _transform = rigidbody2D.transform;
             _directionalMovementData = directionalMovementData;
+            _statValueGiver = statValueGiver;
             float positionDifference = _directionalMovementData.MaxVerticalPosition - _directionalMovementData.MinVerticalPosition;
             float sizeDifference = _directionalMovementData.MaxSize - _directionalMovementData.MinSize;
             _sizeModificator = sizeDifference / positionDifference;
@@ -31,7 +35,7 @@ namespace Core.Movement.Controller
             _movement.x = direction;
             SetDirrection(direction);
             Vector2 velocity = _rigidbody.velocity;
-            velocity.x = direction * _directionalMovementData.HorizontalSpeed;
+            velocity.x = direction * _statValueGiver.GetStatValue(StatType.Speed);
             _rigidbody.velocity = velocity;
         }
 
@@ -40,7 +44,7 @@ namespace Core.Movement.Controller
             _movement.y = direction;
 
             Vector2 velocity = _rigidbody.velocity;
-            velocity.y = direction * _directionalMovementData.VerticalSpeed;
+            velocity.y = direction * _statValueGiver.GetStatValue(StatType.Speed);
             _rigidbody.velocity = velocity;
 
             if (direction == 0) {
