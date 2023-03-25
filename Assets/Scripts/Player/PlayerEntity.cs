@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Player.PlayerAnimations;
-using Spine.Unity.Examples;
-using UnityEditor.Animations;
 using UnityEngine;
 using AnimatorController = Player.PlayerAnimations.AnimatorController;
 
@@ -60,12 +55,12 @@ public class PlayerEntity : MonoBehaviour
 
     private void UpdateAnimations()
     {
-        /*_animator.PlayAnimation(AnimationType.Idle, true);
-        _animator.PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
-        _animator.PlayAnimation(AnimationType.Jump, _isJump);*/
         PlayAnimation(AnimationType.Idle, true);
         PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
         PlayAnimation(AnimationType.Jump, _isJump);
+        /*PlayAnimation(AnimationType.Idle, true);
+        PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
+        PlayAnimation(AnimationType.Jump, _isJump);*/
     }
 
 

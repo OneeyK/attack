@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _joystick: {fileID: 2077024521}
   _jumpButton: {fileID: 126048600}
-  _attackButton: {fileID: 1265058788}
+  _attackButton: {fileID: 1582649685}
   _inventoryButton: {fileID: 0}
 --- !u!1 &630957051
 GameObject:
@@ -2177,7 +2177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1171060593
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2486,7 +2486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a50ca98a7934264b79b8e9834845a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerEntity: {fileID: 1530330920}
+  _playerEntity: {fileID: 1171060598}
   _gameUIInputView: {fileID: 458458521}
 --- !u!4 &1275976914
 Transform:
@@ -2759,7 +2759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1530330914
 BoxCollider2D:
   m_ObjectHideFlags: 0
