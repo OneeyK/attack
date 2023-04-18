@@ -29,6 +29,9 @@ namespace Items.Behaviour
         private float _sizeModificator;
         private Sequence _sequence;
 
+        [field: SerializeField] public float InteractionDistance { get; private set; }
+        public Vector2 Position => _itemTransform.position;
+        
         public event Action<SceneItem> ItemClicked;
 
         private bool _textEnabled = true;
@@ -54,6 +57,11 @@ namespace Items.Behaviour
         }
         
         private void OnMouseDown() => ItemClicked?.Invoke(this);
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(_itemTransform.position, InteractionDistance);
+        }
 
         private void OnDestroy()
         {
