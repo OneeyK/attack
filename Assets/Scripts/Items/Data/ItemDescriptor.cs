@@ -1,6 +1,5 @@
 ﻿using System;
 using Items.Enums;
-using Unity.Services.Analytics;
 using UnityEngine;
 
 namespace Items.Data
