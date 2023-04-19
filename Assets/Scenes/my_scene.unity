@@ -2158,7 +2158,7 @@ MonoBehaviour:
   - Transform: {fileID: 661580927}
     Speed: 0.7
   - Transform: {fileID: 1816489065}
-    Speed: 1
+    Speed: 0
   - Transform: {fileID: 457786569}
     Speed: 2
   _target: {fileID: 1530330919}
@@ -2540,13 +2540,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 222491117929544845, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2484.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 222491117929544845, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 558.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1012938175550933639, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
       propertyPath: m_Name
       value: Armor_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1012938175550933639, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3008930151406396364, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
       propertyPath: m_RootOrder
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008930151406396364, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3008930151406396364, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 3008930151406396364, guid: ea56c5851d817244c8d2ab5e96246a42, type: 3}
       propertyPath: m_LocalPosition.x
