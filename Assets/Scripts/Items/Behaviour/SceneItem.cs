@@ -79,12 +79,16 @@ namespace Items.Behaviour
         public void PlayDrop(Vector2 position)
         {
             transform.position = position;
-            Vector2 movePosition = transform.position + new Vector3(0, Random.Range(-_dropRadius, _dropRadius), 0);
+            Vector2 movePosition = transform.position + new Vector3(Random.Range(-_dropRadius, _dropRadius), 0, 0);
             _sequence = DOTween.Sequence();
             _sequence.Join(transform.DOMove(movePosition, _dropAnimDuration));
             _sequence.Join(_itemTransform.DORotate
                 (new Vector3(0, 0, Random.Range(-_dropRotation, _dropRotation)), _dropAnimDuration));
-            _sequence.OnComplete(() => _canvas.enabled = _textEnabled);
+            _sequence.OnComplete(() =>
+            {
+                UpdateSize();
+                _canvas.enabled = _textEnabled;
+            });
         }
 
         private void UpdateSize()
