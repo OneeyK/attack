@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3008930151406396364}
   - component: {fileID: 2814903902345792312}
+  - component: {fileID: 8063354070644741409}
   m_Layer: 0
-  m_Name: Armor_3
+  m_Name: SceneItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1012938175550933639}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.02, y: 0.936479, z: -0.34468052}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7165598831040164406}
@@ -50,6 +51,31 @@ CircleCollider2D:
   m_Offset: {x: -2.6893034, y: -0.14239062}
   serializedVersion: 2
   m_Radius: 1.013147
+--- !u!114 &8063354070644741409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012938175550933639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c8473f3b0a4b1baa04ff9123d0231b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprite: {fileID: 8224112473438115815}
+  _text: {fileID: 8816026447516147786}
+  _button: {fileID: 6925506961332473818}
+  _canvas: {fileID: 3663131872681340351}
+  _minSize: 0.5
+  _maxSize: 0.5
+  _maxVerticalPosition: 1.8
+  _minVerticalPosition: -0.6
+  _itemTransform: {fileID: 7165598831040164406}
+  _dropAnimDuration: 1
+  _dropRotation: 549
+  _dropRadius: 2
+  <InteractionDistance>k__BackingField: 0
 --- !u!1 &5020009739989154051
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,8 +134,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: -1511881745
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &429338019113646266
 MonoBehaviour:
@@ -221,9 +247,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1511881745
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: fb282987f1a8d854abe31fdea956eb6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
