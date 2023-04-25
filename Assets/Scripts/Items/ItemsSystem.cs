@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Items.Behaviour;
 using Items.Core;
 using Items.Data;
@@ -14,9 +15,11 @@ namespace Items
         private List<IItemRarityColor> _colors;
         private Dictionary<SceneItem, Item> _itemsOnScene;
         private LayerMask _whatIsPlayer;
+        private readonly Inventory _inventory;
+        
         private ItemsFactory _itemsFactory;
 
-        public ItemsSystem(List<IItemRarityColor> colors, LayerMask whatIsPlayer, ItemsFactory itemsFactory)
+        public ItemsSystem(List<IItemRarityColor> colors, LayerMask whatIsPlayer, ItemsFactory itemsFactory, Inventory inventory)
         {
             _sceneItem = Resources.Load<SceneItem>($"{nameof(ItemsSystem)}/{nameof(SceneItem)}");
             _itemsOnScene = new Dictionary<SceneItem, Item>();
@@ -26,6 +29,8 @@ namespace Items
             _colors = colors;
             _whatIsPlayer = whatIsPlayer;
             _itemsFactory = itemsFactory;
+            _inventory = inventory;
+            _inventory.ItemDropped += DropItem;
         }
 
         public void DropItem(ItemDescriptor descriptor, Vector2 position) => DropItem(_itemsFactory.CreateItem(descriptor), position);
@@ -48,6 +53,10 @@ namespace Items
                 return;
 
             Item item = _itemsOnScene[sceneItem];
+
+            if (!_inventory.TryAddToInventory(item))
+                return;
+            
             Debug.Log($"Adding item {item.Descriptor.ItemId} to inventory");
             _itemsOnScene.Remove(sceneItem);
             sceneItem.ItemClicked -= TryToPickItem;
