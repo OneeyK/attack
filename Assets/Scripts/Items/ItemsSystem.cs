@@ -54,10 +54,28 @@ namespace Items
 
             Item item = _itemsOnScene[sceneItem];
 
-            if (!_inventory.TryAddToInventory(item))
+            /*EquipmentConditionChecker equipmentConditionChecker = new EquipmentConditionChecker();
+
+            if (item is Equipment equipment &&
+                _inventory.Equipment.All(element => element.EquipmentType != equipment.EquipmentType) &&
+                equipmentConditionChecker.IsEquipmentConditionFits(equipment, _inventory.Equipment))
+            {
+                _inventory.Equip(equipment);
+            } else if (_inventory.BackPackItems.All(one => one != null))
+            {
+                return;
+            }*/
+            
+            if(_inventory.TryAddToInventory(item))
                 return;
             
-            Debug.Log($"Adding item {item.Descriptor.ItemId} to inventory");
+            _inventory.AddItemToBackPack(item);
+            
+            
+            /*if (!_inventory.TryAddToInventory(item))
+                return;
+            
+            Debug.Log($"Adding item {item.Descriptor.ItemId} to inventory");*/
             _itemsOnScene.Remove(sceneItem);
             sceneItem.ItemClicked -= TryToPickItem;
             Object.Destroy(sceneItem.gameObject);

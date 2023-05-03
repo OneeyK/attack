@@ -19,12 +19,13 @@ namespace Items
         public event Action EquipmentCnahged;
         public event Action<Item, Vector2> ItemDropped; 
 
-        public Inventory(Transform player, EquipmentConditionChecker equipmentFitter)
+        public Inventory(List<Item> backPackItems, List<Equipment> equipment, Transform player)
         {
-            _equipmentFitter = equipmentFitter;
+           // _equipmentFitter = equipmentFitter;
             _player = player;
-            Equipment = new List<Equipment>();
-            BackPackItems = new List<Item>();
+            Equipment = equipment ?? new List<Equipment>();
+           //BackPackItems = new List<Item>();
+           BackPackItems = backPackItems;
             for (int i = 0; i < InventorySize; i++)
                 BackPackItems.Add(null);
         }
@@ -51,7 +52,7 @@ namespace Items
                 return false;
                 
             if(oldEquipment != null)
-                UnEquip(oldEquipment);
+                UnEquip(oldEquipment, false);
 
             if (BackPackItems.Contains(equipment))
             {
@@ -82,7 +83,7 @@ namespace Items
             if (Equipment.Contains(equipment))
             {
                 if(TryAddToBackPack(equipment))
-                    UnEquip(equipment);
+                    UnEquip(equipment, true);
                 
                 return;
             }
@@ -133,19 +134,24 @@ namespace Items
             BackPackChanged?.Invoke();
         }
 
-        public void RemoveFromBackpack(Item item)
+        public void RemoveFromBackpack(Item item, bool toWorld)
         {
             var index = BackPackItems.IndexOf(item);
             BackPackItems[index] = null;
             BackPackChanged?.Invoke();
+            
+            if (toWorld)
+            {
+                ItemDropped?.Invoke(item, _player.position);
+            }
         }
 
         public void RemoveItem(Item item, bool toWorld)
         {
             if(item is Equipment equipment && Equipment.Contains(equipment))
-                UnEquip(equipment);
+                UnEquip(equipment, false);
             else
-                RemoveFromBackpack(item);
+                RemoveFromBackpack(item, true);
             
             if(toWorld)
                 ItemDropped?.Invoke(item, _player.position);
@@ -157,11 +163,16 @@ namespace Items
             EquipmentCnahged?.Invoke();
         }
         
-        public void UnEquip(Equipment equipment)
+        public void UnEquip(Equipment equipment, bool toWorld)
         {
             Equipment.Remove(equipment);
-            equipment.Use();
+            //equipment.Use();
             EquipmentCnahged?.Invoke();
+
+            if (toWorld)
+            {
+                ItemDropped?.Invoke(equipment, _player.position);
+            }
         }
     }
 }
