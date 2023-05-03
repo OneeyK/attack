@@ -30,6 +30,10 @@ namespace UI.InventoryUI.Element
             _emptyImage.gameObject.SetActive(false);
             _itemBack.sprite = itemBackSprite;
             ClearButton.gameObject.SetActive(true);
+            
+            if(_itemAmount == null)
+                return;
+            
             _itemAmount.gameObject.SetActive(amount > 0);
             _itemAmount.text = amount.ToString();
         }
@@ -38,7 +42,8 @@ namespace UI.InventoryUI.Element
         {
             _itemBack.sprite = emptyBackSprite;
             _icon.gameObject.SetActive(false);
-            _itemAmount.gameObject.SetActive(false);
+            if(_itemAmount != null)
+                _itemAmount.gameObject.SetActive(false);
             _emptyImage.gameObject.SetActive(true);
             ClearButton.gameObject.SetActive(false);
         }

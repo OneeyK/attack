@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using InputReader;
+using Items;
 using Items.Data;
 using UI.Core;
 using UI.Enum;
+using UI.InventoryUI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -34,6 +36,7 @@ namespace UI
                 name = nameof(UIContext)
             };
             _uiContainer = container.transform;
+            _data = data;
         }
 
         public void CloserCurrentScreen()
@@ -79,7 +82,7 @@ namespace UI
             switch (screenType)
             {
                 case ScreenType.Inventory:
-                    return new InventoryScreenPresenter(GetView<InventoryScreenView>(screenType), _data.Inventory, _data.RarityDescriptors);
+                    return new InventoryScreenAdapter(GetView<InventoryScreenView>(screenType), _data.Inventory, _data.RarityDescriptors);
                 default:
                     throw new NullReferenceException();
             }
