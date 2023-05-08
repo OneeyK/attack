@@ -29,7 +29,7 @@ namespace Items
             _colors = colors;
             _whatIsPlayer = whatIsPlayer;
             _itemsFactory = itemsFactory;
-            _inventory = inventory; // ADD INVENTORY FROM PARAMETERS LATER***********************************
+            _inventory = inventory; 
             _inventory.ItemDropped += DropItem;
         }
 
