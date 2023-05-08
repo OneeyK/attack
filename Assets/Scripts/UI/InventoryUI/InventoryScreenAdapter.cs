@@ -166,7 +166,7 @@ namespace UI.InventoryUI
             }
             
             _inventory.Equip(equipment);
-            slot.SetItem(equipment.Descriptor.ItemSprite, GetBackSprite(equipment.Descriptor.ItemRarity), 0);
+            //slot.SetItem(equipment.Descriptor.ItemSprite, GetBackSprite(equipment.Descriptor.ItemRarity), 0);
             equipment.Use();
            
         }
