@@ -21,11 +21,11 @@ namespace Items
 
         public Inventory(List<Item> backPackItems, List<Equipment> equipment, Transform player)
         {
-           // _equipmentFitter = equipmentFitter;
+            _equipmentFitter = new EquipmentConditionChecker();
             _player = player;
             Equipment = equipment ?? new List<Equipment>();
-           //BackPackItems = new List<Item>();
-           BackPackItems = backPackItems;
+           BackPackItems = new List<Item>();
+           //BackPackItems = backPackItems;
             for (int i = 0; i < InventorySize; i++)
                 BackPackItems.Add(null);
         }

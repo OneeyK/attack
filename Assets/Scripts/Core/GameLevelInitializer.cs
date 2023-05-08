@@ -76,7 +76,7 @@ namespace Core
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 _uiContext.CloserCurrentScreen();
-                _projectUpdater.IsPaused = !_projectUpdater.IsPaused;
+                //_projectUpdater.IsPaused = !_projectUpdater.IsPaused;
             }
         }
 

@@ -19,6 +19,7 @@ namespace UI.InventoryUI
         private readonly EquipmentConditionChecker _equipmentConditionChecker;
 
         private readonly Sprite _emptyBackgroundSprite;
+        
 
         public InventoryScreenAdapter(InventoryScreenView view, Inventory inventory, List<RarityDescriptor> rarityDescriptors) : base(view)
         {
@@ -34,12 +35,13 @@ namespace UI.InventoryUI
 
         public override void Initialize()
         {
-            View.MovingImage.gameObject.SetActive(false);
+            View.MovingImage.gameObject.SetActive(true);
             InitializeBackPack();
             InitializeEquipment();
             _inventory.BackPackChanged += UpdateBackpack;
             _inventory.EquipmentCnahged += UpdateEquipment;
-            base.Initialize();
+            View.Show();
+            View.CloseClicked += Complete;
         }
 
         public override void Complete()
@@ -49,20 +51,24 @@ namespace UI.InventoryUI
             ClearEquipment();
             _inventory.BackPackChanged -= UpdateBackpack;
             _inventory.EquipmentCnahged -= UpdateEquipment;
+            View.CloseClicked -= Complete;
         }
 
         private void InitializeBackPack()
         {
             var backPack = View.ItemSlots;
+            Debug.Log(backPack.Count);
             for (int i = 0; i < backPack.Count; i++)
             {
                 var slot = backPack[i];
                 var item = _inventory.BackPackItems[i];
                 _backPackSlots.Add(slot, item);
-                
-                if(item == null)
-                    continue;
-                
+
+                if (item == null)
+                {
+                    slot.ClearItem(GetBackSprite(ItemRarity.None));
+                    continue; 
+                }
                 slot.SetItem(item.Descriptor.ItemSprite, GetBackSprite(item.Descriptor.ItemRarity), item.Amount);
                 SubscribeToSlotEvents(slot);
             }
@@ -84,11 +90,16 @@ namespace UI.InventoryUI
                     var twoHandsWeapon = _inventory.Equipment.Find(equip => equip.EquipmentType == )
                 }
                 */
-                
-                if(item == null)
+
+                if (item == null)
+                {
+                    slot.ClearItem(GetBackSprite(ItemRarity.None));
                     continue;
+                }
+
                 
-                slot.SetItem(item.Descriptor.ItemSprite, GetBackSprite(item.Descriptor.ItemRarity), item.Amount);
+                
+                slot.SetItem(item.Descriptor.ItemSprite, item.Descriptor.ItemSprite, item.Amount);
                 SubscribeToSlotEvents(slot);
             }
         }
@@ -155,6 +166,7 @@ namespace UI.InventoryUI
             }
             
             _inventory.Equip(equipment);
+            slot.SetItem(equipment.Descriptor.ItemSprite, GetBackSprite(equipment.Descriptor.ItemRarity), 0);
             equipment.Use();
            
         }

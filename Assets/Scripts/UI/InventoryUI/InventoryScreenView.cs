@@ -29,8 +29,10 @@ namespace UI.InventoryUI
         private void Awake()
         {
             _closeButton.onClick.AddListener((() => CloseClicked?.Invoke()));
-            ItemSlots = GetComponentsInChildren<ItemSlot>().ToList();
-            EquipmentSlots = GetComponentsInChildren<EquipmentSlot>().ToList();
+            //ItemSlots = GetComponentsInChildren<ItemSlot>().ToList();
+            ItemSlots = _backPackContainer.GetComponentsInChildren<ItemSlot>().ToList();
+            Debug.Log(ItemSlots.Count);
+            EquipmentSlots = _equipmentContainer.GetComponentsInChildren<EquipmentSlot>().ToList();
         }
 
         private void OnDestroy()

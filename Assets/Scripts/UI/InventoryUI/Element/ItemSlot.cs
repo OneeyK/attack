@@ -53,5 +53,6 @@ namespace UI.InventoryUI.Element
             ClearButton.onClick.RemoveAllListeners();
             _slotButton.onClick.RemoveAllListeners();
         }
+        
     }
 }

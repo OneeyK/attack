@@ -46,6 +46,7 @@ public class ExternalDevicesInputReader : IEntityInputSource, IWindowsInputSourc
             InventoryRequested?.Invoke();
         }
         
+        
     }
 
     /*private void FixedUpdate () {
