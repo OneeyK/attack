@@ -440,14 +440,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
-  _directionalMovementData:
-    <FaceRight>k__BackingField: 0
-    <MinSize>k__BackingField: 0
-    <MaxSize>k__BackingField: 0
-    <MaxVerticalPosition>k__BackingField: 0
-    <MinVerticalPosition>k__BackingField: 0
   _jumpData:
     <GravityScale>k__BackingField: 0
+  _sortingGroup: {fileID: 0}
 --- !u!50 &59571407
 Rigidbody2D:
   serializedVersion: 4
@@ -2332,14 +2327,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1171060599}
-  _directionalMovementData:
-    <FaceRight>k__BackingField: 1
-    <MinSize>k__BackingField: 1
-    <MaxSize>k__BackingField: 1.25
-    <MaxVerticalPosition>k__BackingField: 2.6
-    <MinVerticalPosition>k__BackingField: 0.85
   _jumpData:
     <GravityScale>k__BackingField: 5
+  _sortingGroup: {fileID: 0}
 --- !u!95 &1171060599
 Animator:
   serializedVersion: 5
@@ -2511,7 +2501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a50ca98a7934264b79b8e9834845a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerEntity: {fileID: 1530330920}
+  playerEntityBehavior: {fileID: 1530330920}
   _gameUIInputView: {fileID: 458458521}
   _rarityDescriptorsStorage: {fileID: 11400000, guid: 16e63fafee23308449cd53de052e161b, type: 2}
   _whatIsPlayer:
@@ -2861,6 +2851,7 @@ GameObject:
   - component: {fileID: 1530330914}
   - component: {fileID: 1530330915}
   - component: {fileID: 1530330920}
+  - component: {fileID: 1530330921}
   m_Layer: 0
   m_Name: DarkKnight
   m_TagString: Untagged
@@ -3015,14 +3006,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1530330915}
-  _directionalMovementData:
-    <FaceRight>k__BackingField: 1
-    <MinSize>k__BackingField: 0.3
-    <MaxSize>k__BackingField: 0.4
-    <MaxVerticalPosition>k__BackingField: 1.8
-    <MinVerticalPosition>k__BackingField: -0.5
   _jumpData:
     <GravityScale>k__BackingField: 5
+  _sortingGroup: {fileID: 1530330921}
+--- !u!210 &1530330921
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530330913}
+  m_Enabled: 1
+  m_SortingLayerID: -1044373717
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!1 &1582649683
 GameObject:
   m_ObjectHideFlags: 0

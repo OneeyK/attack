@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c347614f2994600bf6fab57ced764e8, type: 3}
   m_Name: LevelsDrawingDataStorage
   m_EditorClassIdentifier: 
-  <LevelsData>k__BackingField: []
+  <LevelsData>k__BackingField:
+  - {fileID: 11400000, guid: 00658295d6e35724695fc5cddf2a91b8, type: 2}

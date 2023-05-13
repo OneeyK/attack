@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   <LevelId>k__BackingField: 1
-  <MovementLayerStop>k__BackingField: 0
-  <OrdersPerLayer>k__BackingField: 0
-  <MaxVerticalPosition>k__BackingField: 0
-  <MinVerticalPosition>k__BackingField: 0
-  <MaxSize>k__BackingField: 0
-  <MinSize>k__BackingField: 0
+  <MovementLayerStep>k__BackingField: 0.1
+  <OrdersPerLayer>k__BackingField: 100
+  <MaxVerticalPosition>k__BackingField: 1.8
+  <MinVerticalPosition>k__BackingField: -0.5
+  <MaxSize>k__BackingField: 0.4
+  <MinSize>k__BackingField: 0.3
