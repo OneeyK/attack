@@ -2,18 +2,20 @@ using System;
 using Core.Movement.Controller;
 using Core.Movement.Data;
 using Core.StatSystem;
+using Drawing;
 using UnityEngine;
+using UnityEngine.Rendering;
 using AnimatorController = Player.PlayerAnimations.AnimatorController;
 
 namespace Player 
 {
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerEntity : MonoBehaviour
+public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement
 {
     [SerializeField] private Animator _animator;
     
-    [SerializeField] private DirectionalMovementData _directionalMovementData;
     [SerializeField] private JumpData _jumpData;
+    [SerializeField] private SortingGroup _sortingGroup;
     
     private Rigidbody2D _rigidbody;
     private bool _isJump;
@@ -21,11 +23,14 @@ public class PlayerEntity : MonoBehaviour
 
     private DirectionalMover _directionalMover;
     private Jumper _jumper;
-    
     private AnimationType _currenAnimationtype;
 
+    public float VerticalPosition => _rigidbody.position.y;
+    
     private event Action ActionRequested;
     private event Action AnimationEnded;
+    public event Action<ILevelGraphicElement> VerticalPositionChanged;
+   
 
 
  
@@ -33,29 +38,12 @@ public class PlayerEntity : MonoBehaviour
     public void Initialize(IStatValueGiver statValueGiver)
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _directionalMover = new DirectionalMover(_rigidbody, _directionalMovementData, statValueGiver);
-        _jumper = new Jumper(_rigidbody, _jumpData, _directionalMovementData.MaxSize, statValueGiver);
-        _directionalMover.UpdateSize();
-        
+        _directionalMover = new DirectionalMover(_rigidbody, statValueGiver);
+        _jumper = new Jumper(_rigidbody, _jumpData, statValueGiver);
+
     }
 
-    private void Update() {
-        if (_jumper.isJump)
-        {
-            _jumper.UpdateJump();
-        }
-        UpdateAnimations();
-    }
-
-    private void UpdateAnimations()
-    {
-        PlayAnimation(AnimationType.Idle, true);
-        PlayAnimation(AnimationType.Walk, /*_movement.magnitude > 0*/ _directionalMover.IsMoving);
-        PlayAnimation(AnimationType.Jump, /*_isJump*/ _jumper.isJump);
-        /*PlayAnimation(AnimationType.Idle, true);
-        PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
-        PlayAnimation(AnimationType.Jump, _isJump);*/
-    }
+   
     
 
     public void MoveHorizontally(float direction) => _directionalMover.MoveHorizontally(direction);
@@ -68,6 +56,11 @@ public class PlayerEntity : MonoBehaviour
         }
 
         _directionalMover.MoveVertically(direction);
+
+        if (direction != 0)
+        {
+            VerticalPositionChanged?.Invoke(this);
+        }
 
     }
     
@@ -96,6 +89,15 @@ public class PlayerEntity : MonoBehaviour
         PlayAnimation(_currenAnimationtype);
         return true;
     }
+
+    public void SetDrawingOrder(int order) => _sortingGroup.sortingOrder = order;
+
+
+    public void SetSize(Vector2 size) => transform.localScale = size;
+
+    public void SetVerticalPosition(float verticalPosition) =>
+        _rigidbody.position = new Vector2(_rigidbody.position.x, verticalPosition);
+   
     
     protected  void PlayAnimation(AnimationType animationType)
     {
@@ -111,9 +113,9 @@ public class PlayerEntity : MonoBehaviour
         ActionRequested += Attack;
         AnimationEnded += EndAttack;
     }
-    
-    
-    
+
+
+
     protected void OnActionRequested() => ActionRequested?.Invoke();
     protected void OnAnimationEnded() => AnimationEnded?.Invoke();
 
@@ -128,6 +130,27 @@ public class PlayerEntity : MonoBehaviour
         AnimationEnded -= EndAttack;
         PlayAnimation(AnimationType.Attack, false);
     }
+    
+    private void Update() {
+        if (_jumper.isJump)
+        {
+            _jumper.UpdateJump();
+        }
+        UpdateAnimations();
+    }
+
+    private void UpdateAnimations()
+    {
+        PlayAnimation(AnimationType.Idle, true);
+        PlayAnimation(AnimationType.Walk, /*_movement.magnitude > 0*/ _directionalMover.IsMoving);
+        PlayAnimation(AnimationType.Jump, /*_isJump*/ _jumper.isJump);
+        /*PlayAnimation(AnimationType.Idle, true);
+        PlayAnimation(AnimationType.Walk, _movement.magnitude > 0);
+        PlayAnimation(AnimationType.Jump, _isJump);*/
+    }
+
+    
+    
 }
 
 }
