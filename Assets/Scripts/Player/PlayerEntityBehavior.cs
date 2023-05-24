@@ -5,7 +5,7 @@ using Core.StatSystem;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Rendering;
-using AnimatorController = Player.PlayerAnimations.AnimatorController;
+using AnimatorController = Core.Animations.AnimatorController;
 
 namespace Player 
 {
