@@ -273,7 +273,7 @@ MonoBehaviour:
   _sortingGroup: {fileID: 0}
   _afterAttackDelay: 0.5
   _collider2D: {fileID: 5375072196300297072}
-  <SearchBox>k__BackingField: {x: 25, y: 5}
+  <SearchBox>k__BackingField: {x: 30, y: 5}
   <Tartgets>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
