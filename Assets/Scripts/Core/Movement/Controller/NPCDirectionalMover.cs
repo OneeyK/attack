@@ -18,7 +18,7 @@ namespace Core.Movement.Controller
         public NPCDirectionalMover(Rigidbody2D rigidbody2D)
         {
            Rigidbody = rigidbody2D;
-            _transform = rigidbody2D.transform;
+           _transform = rigidbody2D.transform;
             Direction = Direction.Right;
         }
 

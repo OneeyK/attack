@@ -17,5 +17,5 @@ MonoBehaviour:
   <OrdersPerLayer>k__BackingField: 100
   <MaxVerticalPosition>k__BackingField: 1.8
   <MinVerticalPosition>k__BackingField: -0.5
-  <MaxSize>k__BackingField: 0.4
-  <MinSize>k__BackingField: 0.3
+  <MaxSize>k__BackingField: 1
+  <MinSize>k__BackingField: 1.1

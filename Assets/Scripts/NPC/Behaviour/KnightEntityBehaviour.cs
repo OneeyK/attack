@@ -30,7 +30,15 @@ namespace NPC.Behaviour
         }
 
         private void Update() => UpdateAnimations();
-        //public void StartAttack() => Animator.SetAnimationState(AnimationType.Attack, true, Attack, EndAttack);
+        public void StartAttack()
+        {
+            if (!PlayAnimation(AnimationType.Attack, true))
+            {
+                return;
+            }
+            ActionRequested += Attack;
+            AnimationEnded += EndAttack;
+        } //Animator.SetAnimationState(AnimationType.Attack, true, Attack, EndAttack);
 
         public void SetDirection(Direction direction) => DirectionalMover.SetDirection(direction);
 
@@ -41,7 +49,10 @@ namespace NPC.Behaviour
 
         private void EndAttack()
         {
-            //Animator.SetAnimationState(AnimationType.Attack, false);
+            ActionRequested -= Attack;
+            AnimationEnded -= EndAttack;
+            PlayAnimation(AnimationType.Attack, false);
+            PlayAnimation(AnimationType.Idle);
             Invoke(nameof(EndAttackSequence), _afterAttackDelay);
         }
 

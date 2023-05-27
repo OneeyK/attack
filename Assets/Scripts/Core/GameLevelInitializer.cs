@@ -10,6 +10,8 @@ using Items;
 using Items.Data;
 using Items.Rarity;
 using Items.Storage;
+using NPC.Enums;
+using NPC.Spawner;
 using UI;
 using UnityEngine.Serialization;
 
@@ -22,6 +24,7 @@ namespace Core
         [SerializeField] private ItemRarityDescriptorsStorage _rarityDescriptorsStorage;
         [SerializeField] private LayerMask _whatIsPlayer;
         [SerializeField] private ItemStorage _itemStorage;
+        [SerializeField] private Transform _spawner;
         
         private ExternalDevicesInputReader _externalDevicesInput;
         private PlayerSystem _playerSystem;
@@ -30,6 +33,7 @@ namespace Core
         private DropGenerator _dropGenerator;
         private UIContext _uiContext;
         private LevelDrawer _levelDrawer;
+        private EntitySpawner _entitySpawner;
 
         private List<IDisposable> _disposables;
 
@@ -74,6 +78,8 @@ namespace Core
 
             _levelDrawer = new LevelDrawer(LevelId.Level1);
             _levelDrawer.RegisterElement(playerEntityBehavior);
+
+            _entitySpawner = new EntitySpawner(_levelDrawer);
         }
         
         private void Update()
@@ -82,6 +88,12 @@ namespace Core
             {
                 _uiContext.CloserCurrentScreen();
                 //_projectUpdater.IsPaused = !_projectUpdater.IsPaused;
+            }
+            
+            
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                _entitySpawner.SpawnEntity(EntityId.Knight, _spawner.position);
             }
         }
 
