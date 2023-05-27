@@ -22,15 +22,17 @@ namespace NPC.Controller
         private float _stoppingDistance;
         private Path _path;
         private int _point;
-        
-        
-        protected KnightEntity(KnightEntityBehaviour entityBehaviour, StatsController statsController) : base(entityBehaviour, statsController)
+
+
+        public KnightEntity(KnightEntityBehaviour entityBehaviour, StatsController statsController) : base(entityBehaviour, statsController)
         {
             _seeker = entityBehaviour.GetComponent<Seeker>();
             _knightEntityBehaviour = entityBehaviour;
             _knightEntityBehaviour.AttackSequenceEnded += OnAttackEnded;
             _coroutine = ProjectUpdater.Instance.StartCoroutine(Coroutine());
             ProjectUpdater.Instance.FixedUpdateCalled += FixedUpdateCalled;
+            var speed = StatsController.GetStatValue(StatType.Speed) * Time.fixedDeltaTime;
+                    _delta = new Vector2(speed, speed / 2);
         }
 
         private IEnumerator Coroutine()
@@ -39,9 +41,14 @@ namespace NPC.Controller
             {
                 if (GetTarget(out _target))
                 {
-                    ResetMovement();
-                    /*var speed = StatsController.GetStatValue(StatType.Speed) * Time.fixedDeltaTime;
-                    _delta = new Vector2(speed, speed / 2);*/
+                    //ResetMovement();
+                    Vector2 position = _target.transform.position;
+                    _previousTargetPos = position;
+                    _stoppingDistance = (_target.bounds.size.x + _knightEntityBehaviour.Size.x) / 2;
+                    var delta = position.x < _knightEntityBehaviour.transform.position.x ? 1 : -1;
+                    _destination = position + new Vector2(_stoppingDistance * delta, 0);
+                    _seeker.StartPath(_knightEntityBehaviour.transform.position, _destination, OnPathCalculated);
+                    
                 }
                 else if(_target.transform.position != _previousTargetPos)
                 {
@@ -58,7 +65,7 @@ namespace NPC.Controller
 
         private void OnPathCalculated(Path p)
         {
-            if(_path.error)
+            if(p.error)
                 return;
 
             _path = p;
@@ -67,7 +74,7 @@ namespace NPC.Controller
 
         private void FixedUpdateCalled()
         {
-            if(_isAttack || _target == null || _path == null || CheckOnAttack() || _point >= _path.vectorPath.Count)
+            if(CheckOnAttack() || _target == null || _path == null || _isAttack  /*|| _point >= _path.vectorPath.Count*/)
                 return;
 
             var curPos = _knightEntityBehaviour.transform.position;
@@ -123,16 +130,21 @@ namespace NPC.Controller
 
         private bool CheckOnAttack()
         {
+
             var distanceToObject = _destination - _knightEntityBehaviour.transform.position;
+            
             if (Mathf.Abs(distanceToObject.x) > 0.2f || Mathf.Abs(distanceToObject.y) > 0.2f)
+            {
                 return false;
+            }
+               
             
             _knightEntityBehaviour.MoveHorizontally(_destination.x);
             _knightEntityBehaviour.MoveVertically(_destination.y);
             _knightEntityBehaviour.SetDirection(_knightEntityBehaviour.transform.position.x > _target.transform.position.x ? Direction.Left : Direction.Right);
-            ResetMovement();
+            //ResetMovement();
             _isAttack = true;
-           // _knightEntityBehaviour.StartAttack();
+            _knightEntityBehaviour.StartAttack();
             if(_coroutine != null)
                 ProjectUpdater.Instance.StopCoroutine(_coroutine);
             

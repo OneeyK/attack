@@ -93,7 +93,11 @@ public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement
     public void SetDrawingOrder(int order) => _sortingGroup.sortingOrder = order;
 
 
-    public void SetSize(Vector2 size) => transform.localScale = size;
+    public void SetSize(Vector2 size)
+    {
+        Vector2 newSize = new Vector2((float)(size.x * 0.3), (float)(size.y * 0.3));
+        transform.localScale = newSize;
+    }
 
     public void SetVerticalPosition(float verticalPosition) =>
         _rigidbody.position = new Vector2(_rigidbody.position.x, verticalPosition);

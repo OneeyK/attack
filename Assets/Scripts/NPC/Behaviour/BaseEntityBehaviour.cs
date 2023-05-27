@@ -10,17 +10,22 @@ namespace NPC.Behaviour
 {
     public class BaseEntityBehaviour : MonoBehaviour
     {
-       // [SerializeField] protected AnimatorController Animator;
+        [SerializeField] protected Animator Animator;
         [SerializeField] private SortingGroup _sortingGroup;
 
         protected Rigidbody2D Rigidbody;
         protected NPCDirectionalMover DirectionalMover;
+        private AnimationType _currentAnimationType;
+
+        public event Action ActionRequested;
+        public event Action AnimationEnded;
         
+        private Action _animationAction;
+        private Action _animationEndAction;
         public event Action<ILevelGraphicElement> VerticalPositionChanged;
 
         public virtual void Initialize()
         {
-            //Animator.Initialize();
             Rigidbody = GetComponent<Rigidbody2D>();
         }
 
@@ -36,8 +41,76 @@ namespace NPC.Behaviour
         
         protected virtual void UpdateAnimations()
         {
-            //Animator.SetAnimationState(AnimationType.Idle, true);
-           // Animator.SetAnimationState(AnimationType.Walk, DirectionalMover.IsMoving);
+            PlayAnimation(AnimationType.Idle, true);
+            PlayAnimation(AnimationType.Walk, DirectionalMover.IsMoving);
         }
+        
+        
+        public bool SetAnimationState(AnimationType animationType, bool active, Action animationAction = null, Action endAnimationAction = null)
+        {
+            if (!active)
+            {
+                if (_currentAnimationType == AnimationType.Idle || _currentAnimationType != animationType)
+                    return false;
+                _animationAction = null;
+                _animationEndAction = null;
+                OnAnimationEnded();
+                return false;
+            }
+
+            if (_currentAnimationType >= animationType)
+                return false;
+
+            _animationAction = animationAction;
+            _animationEndAction = endAnimationAction;
+            SetAnimation(animationType);
+            return true;
+        }
+        
+
+        private void SetAnimation(AnimationType animationType)
+        {
+            _currentAnimationType = animationType;
+            PlayAnimation(_currentAnimationType);
+        }
+        
+        public bool PlayAnimation(AnimationType animationType, bool active)
+        {
+            if (!active)
+            {
+                if (_currentAnimationType == AnimationType.Idle || _currentAnimationType != animationType)
+                {
+                    return false;
+                }
+                _currentAnimationType = AnimationType.Idle;
+                PlayAnimation(_currentAnimationType);
+                return false;
+            }
+        
+            if (_currentAnimationType > animationType)
+            {
+                return false;
+            }
+
+            _currentAnimationType = animationType;
+            PlayAnimation(_currentAnimationType);
+            return true;
+        }
+        
+        protected  void PlayAnimation(AnimationType animationType)
+        {
+           Animator.SetInteger(nameof(AnimationType), (int)animationType);
+        }
+        
+
+        protected void OnActionRequested() => ActionRequested?.Invoke();
+        protected void OnAnimationEnded()
+        {
+            _animationEndAction?.Invoke();
+            SetAnimation(AnimationType.Idle);
+        }
+        
+        
+        
     }
 }
