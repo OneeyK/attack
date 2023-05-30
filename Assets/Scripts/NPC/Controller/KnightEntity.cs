@@ -50,7 +50,7 @@ namespace NPC.Controller
                     _seeker.StartPath(_knightEntityBehaviour.transform.position, _destination, OnPathCalculated);
                     
                 }
-                else if(_target.transform.position != _previousTargetPos)
+                /*else if(_target.transform.position != _previousTargetPos)
                 {
                     Vector2 position = _target.transform.position;
                     _previousTargetPos = position;
@@ -58,7 +58,7 @@ namespace NPC.Controller
                     var delta = position.x < _knightEntityBehaviour.transform.position.x ? 1 : -1;
                     _destination = position + new Vector2(_stoppingDistance * delta, 0);
                     _seeker.StartPath(_knightEntityBehaviour.transform.position, _destination, OnPathCalculated);
-                }
+                }*/
                 yield return new WaitForSeconds(0.5f);
             }
         }
