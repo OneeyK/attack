@@ -1,21 +1,24 @@
 using System;
+using BattleSystem;
 using Core.Movement.Controller;
 using Core.Movement.Data;
 using Core.StatSystem;
 using Drawing;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 using AnimatorController = Core.Animations.AnimatorController;
 
 namespace Player 
 {
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement
+public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement, IDamageable
 {
     [SerializeField] private Animator _animator;
     
     [SerializeField] private JumpData _jumpData;
     [SerializeField] private SortingGroup _sortingGroup;
+    [field: SerializeField] public Slider HpBar { get; private set; }
     
     private Rigidbody2D _rigidbody;
     private bool _isJump;
@@ -29,6 +32,7 @@ public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement
     
     private event Action ActionRequested;
     private event Action AnimationEnded;
+    public event Action<float> DamageTaken;
     public event Action<ILevelGraphicElement> VerticalPositionChanged;
    
 
@@ -153,6 +157,12 @@ public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement
         PlayAnimation(AnimationType.Jump, _isJump);*/
     }
 
+
+    
+    public void TakeDamage(float damage)
+    {
+        DamageTaken?.Invoke(damage);
+    }
     
     
 }

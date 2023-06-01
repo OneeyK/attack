@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using BattleSystem;
 using Core.Enums;
 using Core.Services.Updater;
 using Core.StatSystem;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace NPC.Controller
 {
-    public class KnightEntity : Entity
+    public sealed class KnightEntity : Entity
     {
         private readonly Seeker _seeker;
         private readonly KnightEntityBehaviour _knightEntityBehaviour;
@@ -29,10 +30,19 @@ namespace NPC.Controller
             _seeker = entityBehaviour.GetComponent<Seeker>();
             _knightEntityBehaviour = entityBehaviour;
             _knightEntityBehaviour.AttackSequenceEnded += OnAttackEnded;
+            _knightEntityBehaviour.Attacked += OnAttacked;
+            VisualiseHp(StatsController.GetStatValue(StatType.Health));
+            
             _coroutine = ProjectUpdater.Instance.StartCoroutine(Coroutine());
             ProjectUpdater.Instance.FixedUpdateCalled += FixedUpdateCalled;
             var speed = StatsController.GetStatValue(StatType.Speed) * Time.fixedDeltaTime;
                     _delta = new Vector2(speed, speed / 2);
+        }
+
+        private void OnAttacked(IDamageable target)
+        {
+            Debug.Log("1 damage");
+            target.TakeDamage(StatsController.GetStatValue(StatType.Damage));
         }
 
         private IEnumerator Coroutine()
@@ -74,7 +84,7 @@ namespace NPC.Controller
 
         private void FixedUpdateCalled()
         {
-            if(CheckOnAttack() || _target == null || _path == null || _isAttack  /*|| _point >= _path.vectorPath.Count*/)
+            if( _target == null || _path == null || _isAttack || CheckOnAttack()  /*|| _point >= _path.vectorPath.Count*/)
                 return;
 
             var curPos = _knightEntityBehaviour.transform.position;
@@ -171,7 +181,19 @@ namespace NPC.Controller
         private void OnAttackEnded()
         {
             _isAttack = false;
-            _coroutine = ProjectUpdater.Instance.StartCoroutine(Coroutine());
+            /*ProjectUpdater.Instance.Invoke(() =>
+            {*/
+                _coroutine = ProjectUpdater.Instance.StartCoroutine(Coroutine());
+           // }, StatsController.GetStatValue(StatType.AfterAttackDelay));
+           
+        }
+
+        protected sealed override void VisualiseHp(float hp)
+        {
+            if (_knightEntityBehaviour.HpBar.maxValue < hp)
+                _knightEntityBehaviour.HpBar.maxValue = hp;
+
+            _knightEntityBehaviour.HpBar.maxValue = hp;
         }
     }
 }

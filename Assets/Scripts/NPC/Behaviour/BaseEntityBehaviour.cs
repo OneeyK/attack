@@ -1,4 +1,5 @@
 ﻿using System;
+using BattleSystem;
 using Core.Animations;
 using Core.Movement.Controller;
 using Drawing;
@@ -8,7 +9,7 @@ using UnityEngine.Rendering;
 
 namespace NPC.Behaviour
 {
-    public class BaseEntityBehaviour : MonoBehaviour
+    public class BaseEntityBehaviour : MonoBehaviour, IDamageable
     {
         [SerializeField] protected Animator Animator;
         [SerializeField] private SortingGroup _sortingGroup;
@@ -23,7 +24,8 @@ namespace NPC.Behaviour
         private Action _animationAction;
         private Action _animationEndAction;
         public event Action<ILevelGraphicElement> VerticalPositionChanged;
-
+        public event Action<float> DamageTaken;
+        
         public virtual void Initialize()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
@@ -38,6 +40,11 @@ namespace NPC.Behaviour
 
         public void SetVerticalPosition(float verticalPosition) =>
             Rigidbody.position = new Vector2(Rigidbody.position.x, verticalPosition);
+        
+        public void TakeDamage(float damage)
+        {
+            DamageTaken?.Invoke(damage);
+        }
         
         protected virtual void UpdateAnimations()
         {
@@ -109,8 +116,9 @@ namespace NPC.Behaviour
             _animationEndAction?.Invoke();
             SetAnimation(AnimationType.Idle);
         }
-        
-        
-        
+
+
+       
+       
     }
 }

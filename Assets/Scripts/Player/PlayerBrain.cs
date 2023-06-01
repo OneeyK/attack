@@ -1,21 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BattleSystem;
 using Core.Services.Updater;
+using Core.StatSystem;
+using Core.StatSystem.Enums;
 using InputReader;
+using UnityEngine;
 
 namespace Player
 {
-    public class PlayerBrain : IDisposable
+    public sealed class PlayerBrain : IDisposable
     {
         private readonly PlayerEntityBehavior playerEntityBehavior;
         private readonly List<IEntityInputSource> _inputSources;
+        private StatsController _statsController;
 
-        public PlayerBrain(PlayerEntityBehavior playerEntityBehavior, List<IEntityInputSource> inputSources)
+        private float _hp;
+        public event Action<PlayerBrain> ObjectDied;
+
+        public PlayerBrain(PlayerEntityBehavior playerEntityBehavior, List<IEntityInputSource> inputSources, StatsController statsController)
         {
             this.playerEntityBehavior = playerEntityBehavior;
             _inputSources = inputSources;
+            _statsController = statsController;
+            _hp = statsController.GetStatValue(StatType.Health);
+            this.playerEntityBehavior.DamageTaken += OnDamageTaken;
+            VisualiseHp(statsController.GetStatValue(StatType.Health));
             ProjectUpdater.Instance.FixedUpdateCalled += OnFixedUpdate;
+        }
+
+        private void OnDamageTaken(float damage)
+        {
+            damage -= _statsController.GetStatValue(StatType.Defence);
+            Debug.Log(damage);
+            if (damage < 0)
+            {
+                return;
+            }
+
+            _hp = Mathf.Clamp(_hp - damage, 0, _hp);
+            Debug.Log(_hp);
+            if (_hp <= 0)
+            {
+                ObjectDied?.Invoke(this);
+            }
         }
 
         public void Dispose() => ProjectUpdater.Instance.FixedUpdateCalled -= OnFixedUpdate;
@@ -66,6 +95,12 @@ namespace Player
         private bool IsJump => _inputSources.Any(source => source.Jump);
         private bool IsAttack => _inputSources.Any(source => source.Attack);
 
+        protected  void VisualiseHp(float hp)
+        {
+            if (playerEntityBehavior.HpBar.maxValue < hp)
+                playerEntityBehavior.HpBar.maxValue = hp;
 
+            playerEntityBehavior.HpBar.maxValue = hp;
+        }
     }
 }
