@@ -191,9 +191,9 @@ namespace NPC.Controller
         protected sealed override void VisualiseHp(float hp)
         {
             if (_knightEntityBehaviour.HpBar.maxValue < hp)
-                _knightEntityBehaviour.HpBar.maxValue = hp;
+                _knightEntityBehaviour.HpBar.value = hp;
 
-            _knightEntityBehaviour.HpBar.maxValue = hp;
+            _knightEntityBehaviour.HpBar.value = hp;
         }
     }
 }

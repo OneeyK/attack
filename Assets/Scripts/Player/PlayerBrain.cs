@@ -41,6 +41,7 @@ namespace Player
 
             _hp = Mathf.Clamp(_hp - damage, 0, _hp);
             Debug.Log(_hp);
+            VisualiseHp(_hp);
             if (_hp <= 0)
             {
                 ObjectDied?.Invoke(this);
@@ -98,9 +99,9 @@ namespace Player
         protected  void VisualiseHp(float hp)
         {
             if (playerEntityBehavior.HpBar.maxValue < hp)
-                playerEntityBehavior.HpBar.maxValue = hp;
+                playerEntityBehavior.HpBar.value = hp;
 
-            playerEntityBehavior.HpBar.maxValue = hp;
+            playerEntityBehavior.HpBar.value = hp;
         }
     }
 }
