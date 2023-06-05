@@ -88,8 +88,11 @@ namespace Player
             {
                 Equipment weapon;
                 weapon = _inventory.Equipment.Find(element => element.IsWeapon());
-                _currWeapon = _weaponsFactory.GetWeapon(weapon.Descriptor.ItemId);
-                playerEntityBehavior.StartAttck();
+                if (weapon != null)
+                {
+                    _currWeapon = _weaponsFactory.GetWeapon(weapon.Descriptor.ItemId);
+                    playerEntityBehavior.StartAttck(); 
+                }
             }
             
 
