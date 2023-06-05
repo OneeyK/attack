@@ -30,29 +30,29 @@ namespace Player
         public PlayerBrain(PlayerEntityBehavior playerEntityBehavior, List<IEntityInputSource> inputSources, StatsController statsController, WeaponsFactory weaponsFactory, Inventory inventory)
         {
             this.playerEntityBehavior = playerEntityBehavior;
-           // playerEntityBehavior.ActionRequested += OnAttackStarted;
-            //playerEntityBehavior.AnimationEnded += OnAttackEnded;
+            playerEntityBehavior.ActionRequested += OnAttackStarted;
+            playerEntityBehavior.AnimationEnded += OnAttackEnded;
             _inputSources = inputSources;
             _statsController = statsController;
             _hp = statsController.GetStatValue(StatType.Health);
             this.playerEntityBehavior.DamageTaken += OnDamageTaken;
             VisualiseHp(statsController.GetStatValue(StatType.Health));
-            //_weaponsFactory = weaponsFactory;
-            //_inventory = inventory;
+            _weaponsFactory = weaponsFactory;
+            _inventory = inventory;
             ProjectUpdater.Instance.FixedUpdateCalled += OnFixedUpdate;
         }
 
         private void OnAttackEnded()
         {
             _canAttack = false;
-            /*_currWeapon.EndAttack();
-            ProjectUpdater.Instance.Invoke(() => _canAttack = true, _statsController.GetStatValue(StatType.AfterAttackDelay));*/
+            _currWeapon.EndAttack();
+            ProjectUpdater.Instance.Invoke(() => _canAttack = true, _statsController.GetStatValue(StatType.AfterAttackDelay));
         }
 
         private void OnAttackStarted()
         {
             
-           // _currWeapon?.Attack(_statsController.GetStatValue(StatType.Damage));
+           _currWeapon?.Attack(_statsController.GetStatValue(StatType.Damage));
             Debug.Log("Attack");
         }
 
@@ -84,11 +84,11 @@ namespace Player
             if(IsJump)
                 playerEntityBehavior.Jump();
 
-            if (IsAttack /*&& _canAttack*/)
+            if (IsAttack && _canAttack)
             {
-                /*Equipment weapon;
+                Equipment weapon;
                 weapon = _inventory.Equipment.Find(element => element.IsWeapon());
-                _currWeapon = _weaponsFactory.GetWeapon(weapon.Descriptor.ItemId);*/
+                _currWeapon = _weaponsFactory.GetWeapon(weapon.Descriptor.ItemId);
                 playerEntityBehavior.StartAttck();
             }
             

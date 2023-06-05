@@ -14,6 +14,8 @@ namespace BattleSystem
             if(other.TryGetComponent(out IDamageable damageable) && !Targets.Contains(damageable))
                 Targets.Add(damageable);
         }
+        
+       
     }
 
 }

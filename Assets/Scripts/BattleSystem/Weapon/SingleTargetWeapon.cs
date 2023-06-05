@@ -9,18 +9,14 @@ namespace BattleSystem.Weapon
         private float _damage;
         public SingleTargetWeapon(Attacker attacker)
         {
-            /*attacker.TryGetComponent(out PolygonCollider2D collider)
-                Object.Destroy(collider);
-
-                
-            attacker.TryGetComponent().
-            attacker.AddComponent<PolygonCollider2D>().isTrigger = true;*/
-           
+            
+            //_attacker.TryGetComponent(out PolygonCollider2D collider);
+            //collider.isTrigger = true;
             _attacker = attacker;
         }
         public override void Attack(float damage)
         {
-            _attacker.Reset();
+           
             _attacker.gameObject.SetActive(true);
             _damage = damage;
         }
@@ -31,6 +27,7 @@ namespace BattleSystem.Weapon
                 return;
             
             _attacker.Targets[0].TakeDamage(_damage);
+            //_attacker.Reset();
         }
     }
 }

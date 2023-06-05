@@ -23,7 +23,7 @@ namespace NPC.Controller
         private float _stoppingDistance;
         private Path _path;
         private int _point;
-
+        private float _hp;
 
         public KnightEntity(KnightEntityBehaviour entityBehaviour, StatsController statsController) : base(entityBehaviour, statsController)
         {
@@ -32,11 +32,30 @@ namespace NPC.Controller
             _knightEntityBehaviour.AttackSequenceEnded += OnAttackEnded;
             _knightEntityBehaviour.Attacked += OnAttacked;
             VisualiseHp(StatsController.GetStatValue(StatType.Health));
-            
+            _hp = StatsController.GetStatValue(StatType.Health);
+            _knightEntityBehaviour.DamageTaken += OnDamageTaken;
             _coroutine = ProjectUpdater.Instance.StartCoroutine(Coroutine());
             ProjectUpdater.Instance.FixedUpdateCalled += FixedUpdateCalled;
             var speed = StatsController.GetStatValue(StatType.Speed) * Time.fixedDeltaTime;
                     _delta = new Vector2(speed, speed / 2);
+        }
+
+        private void OnDamageTaken(float damage)
+        {
+            damage -= StatsController.GetStatValue(StatType.Defence);
+            Debug.Log(damage);
+            if (damage < 0)
+            {
+                return;
+            }
+
+            _hp = Mathf.Clamp(_hp - damage, 0, _hp);
+            Debug.Log(_hp);
+            VisualiseHp(_hp);
+            /*if (_hp <= 0)
+            {
+                ObjectDied?.Invoke(this);
+            }*/
         }
 
         private void OnAttacked(IDamageable target)

@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 27528325}
   - component: {fileID: 27528326}
   - component: {fileID: 27528327}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2142,6 +2142,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &841253906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7990239873056741997, guid: b81ba61dc921e454bb9ff949991050e7, type: 3}
+  m_PrefabInstance: {fileID: 1812722481866337188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &841253911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841253906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d2f1a3a6484e2fbf051a531d5a9840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 0}
+  _sortingGroup: {fileID: 0}
+  _afterAttackDelay: 0
+  _collider2D: {fileID: 0}
+  _attackPoint: {fileID: 0}
+  _attackRadius: 0
+  <SearchBox>k__BackingField: {x: 0, y: 0}
+  <Tartgets>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
+  <HpBar>k__BackingField: {fileID: 0}
 --- !u!1 &843109134
 GameObject:
   m_ObjectHideFlags: 0
