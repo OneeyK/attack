@@ -35,6 +35,7 @@ namespace NPC.Behaviour
         {
             base.Initialize();
             DirectionalMover = new PositionMover(Rigidbody);
+            
         }
 
         private void Update() => UpdateAnimations();

@@ -19,6 +19,7 @@ public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement, IDamage
     [SerializeField] private JumpData _jumpData;
     [SerializeField] private SortingGroup _sortingGroup;
     [field: SerializeField] public Slider HpBar { get; private set; }
+    [field: SerializeField] public Attacker Attacker { get; private set; }
     
     private Rigidbody2D _rigidbody;
     private bool _isJump;
@@ -30,8 +31,8 @@ public class PlayerEntityBehavior : MonoBehaviour, ILevelGraphicElement, IDamage
 
     public float VerticalPosition => _rigidbody.position.y;
     
-    private event Action ActionRequested;
-    private event Action AnimationEnded;
+    public event Action ActionRequested;
+    public event Action AnimationEnded;
     public event Action<float> DamageTaken;
     public event Action<ILevelGraphicElement> VerticalPositionChanged;
    
