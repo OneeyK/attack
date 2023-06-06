@@ -56,7 +56,10 @@ namespace NPC.Controller
       VisualiseHp(_hp);
       if (_hp <= 0)
       {
+        //ObjectDied += OnDead;
         //ObjectDied?.Invoke(this);
+        OnDead(this);
+        _knightEntityBehaviour.TriggerDeathCor();
       }
     }
 
@@ -98,6 +101,8 @@ namespace NPC.Controller
         yield return new WaitForSeconds(0.5f);
       }
     }
+
+
 
     private void OnPathCalculated(Path p)
     {

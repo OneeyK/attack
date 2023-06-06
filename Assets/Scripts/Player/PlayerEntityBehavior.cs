@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using BattleSystem;
 using Core.Movement.Controller;
 using Core.Movement.Data;
@@ -128,6 +129,15 @@ namespace Player
       ActionRequested -= Attack;
       AnimationEnded -= EndAttack;
       PlayAnimation(AnimationType.Attack, false);
+    }
+    private IEnumerator Death()
+    {
+      yield return new WaitForSeconds(1f);
+      Destroy(gameObject);
+    }
+    public void TriggerDeathCor()
+    {
+      StartCoroutine(Death());
     }
 
     private void Update()

@@ -59,6 +59,7 @@ namespace Player
     private void OnDead(PlayerBrain pb)
     {
       playerEntityBehavior.PlayAnimation(AnimationType.Death, true);
+      playerEntityBehavior.TriggerDeathCor();
     }
 
     private void OnDamageTaken(float damage)
