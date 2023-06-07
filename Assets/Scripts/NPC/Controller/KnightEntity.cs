@@ -64,7 +64,6 @@ namespace NPC.Controller
 
     private void OnAttacked(IDamageable target)
     {
-      Debug.Log("1 damage");
       target.TakeDamage(StatsController.GetStatValue(StatType.Damage));
     }
 
