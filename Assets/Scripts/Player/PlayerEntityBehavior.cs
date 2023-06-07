@@ -8,6 +8,7 @@ using Drawing;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using QuestSystem;
 using AnimatorController = Core.Animations.AnimatorController;
 
 namespace Player
@@ -31,6 +32,8 @@ namespace Player
     private AnimationType _currenAnimationtype;
 
     public float VerticalPosition => _rigidbody.position.y;
+
+    public Quest activeQuest;
 
     public event Action ActionRequested;
     public event Action AnimationEnded;
